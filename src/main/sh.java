@@ -3,18 +3,15 @@ package main;
 import javax.swing.JButton;
 
 public class sh {
-	sh()
-	{
-		
-	}
+	sh() { }
 	
-	void buttonClick(JButton jba, String turn)
+	static void buttonClick(JButton jba, String turn)
 	{
 		jba.setText(turn);
 		jba.setEnabled(false);
 	}
 	
-	String changeTurn(String turn)
+	static String changeTurn(String turn)
 	{
 		switch (turn)
 		{

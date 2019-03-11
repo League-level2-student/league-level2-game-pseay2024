@@ -55,8 +55,10 @@ public class TicTocToe implements ActionListener{
 		Buttons.add(jbSW);
 		Buttons.add(jbS);
 		Buttons.add(jbSE);
+		jf.setSize(WIDTH, HEIGHT);
 		for (JButton jba : Buttons)
 		{
+			jba.setPreferredSize(new Dimension(165,165));
 			jba.addActionListener(this);
 			jp.add(jba);
 		}
@@ -83,9 +85,9 @@ public class TicTocToe implements ActionListener{
 				if (e.getSource() == jba)
 				{
 					buttonsClicked++;
-					new sh().buttonClick(jba, turn);
-					turn = new sh().changeTurn(turn);
-					
+					sh.buttonClick(jba, turn);
+					turn = sh.changeTurn(turn);
+					Checker.check(Buttons);
 				}
 			}
 			break;
