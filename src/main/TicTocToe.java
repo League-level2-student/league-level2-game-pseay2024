@@ -5,12 +5,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 
 
 public class TicTocToe implements ActionListener{
@@ -50,7 +56,7 @@ public class TicTocToe implements ActionListener{
 
 	void setup() {
 		JOptionPane.showMessageDialog(null,
-				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent. The first player will be X. Have fun ;)");
+				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent. The first player will be X. The indication of the whose turn it is will be shown by the background color; red means it is x's turn and green means that it is o's turn. Have fun ;)");
 		Buttons.add(jbNW);
 		Buttons.add(jbN);
 		Buttons.add(jbNE);
@@ -88,23 +94,26 @@ public class TicTocToe implements ActionListener{
 		{
 		case 1001:
 			//clicked
-			for (JButton jba : Buttons)
+			for (JButton jb : Buttons)
 			{
-				if (e.getSource() == jba)
+				if (e.getSource() == jb)
 				{
 					buttonsClicked++;
-					sh.buttonClick(jba, turn);
+					sh.buttonClick(jb, turn);
 					switch(turn)
 					{
 					case "x":
-						jba.setBackground(new Color(255, 51, 0));
+						jb.setBackground(new Color(255, 51, 0));
+						jp.setBackground(new Color(25, 102, 25));
 						break;
 					case "o":
 						//green
-						jba.setBackground(new Color(51, 204, 51));
+						jb.setBackground(new Color(51, 204, 51));
+						jp.setBackground(new Color(127, 25, 0));
 						break;
 					}
 					turn = sh.changeTurn(turn);
+					
 					switch (chek.check(Buttons))
 					{
 					case "x":
@@ -138,6 +147,7 @@ public class TicTocToe implements ActionListener{
 	{
 		buttonsClicked = 0;
 		turn = "x";
+		jp.setBackground(new Color(51, 204, 255));
 		for (JButton jba : Buttons)
 		{
 			jba.setBackground(null);
