@@ -1,6 +1,8 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 public class TicTocToe implements ActionListener{
 	int buttonsClicked = 0;
@@ -27,6 +30,7 @@ public class TicTocToe implements ActionListener{
 	final int WIDTH = 500;
 	final int HEIGHT = 500;
 	ArrayList<JButton> Buttons;
+	Checker chek;
 	
 	TicTocToe() {
 		jbNW = new JButton();
@@ -40,12 +44,13 @@ public class TicTocToe implements ActionListener{
 		jbSE = new JButton();
 		jf = new JFrame();
 		jp = new JPanel();
+		chek = new Checker();
 		Buttons = new ArrayList<JButton>();
 	}
 
 	void setup() {
 		JOptionPane.showMessageDialog(null,
-				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent");
+				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent. The first player will be X. Have fun ;)");
 		Buttons.add(jbNW);
 		Buttons.add(jbN);
 		Buttons.add(jbNE);
@@ -55,15 +60,19 @@ public class TicTocToe implements ActionListener{
 		Buttons.add(jbSW);
 		Buttons.add(jbS);
 		Buttons.add(jbSE);
+		jp.setBackground(new Color(51, 204, 255));
 		jf.setSize(WIDTH, HEIGHT);
+		final int buttonSize = 150;
 		for (JButton jba : Buttons)
 		{
-			jba.setPreferredSize(new Dimension(165,165));
+			jba.setBackground(new Color(51, 204, 51));
+			jba.setOpaque(true);
+			jba.setPreferredSize(new Dimension(buttonSize, buttonSize));
 			jba.addActionListener(this);
+			jba.setFont(new Font("arial", 100, 100));
 			jp.add(jba);
 		}
 		jf.add(jp);
-		jf.pack();
 		jf.setVisible(true);
 	}
 
@@ -87,12 +96,44 @@ public class TicTocToe implements ActionListener{
 					buttonsClicked++;
 					sh.buttonClick(jba, turn);
 					turn = sh.changeTurn(turn);
-					Checker.check(Buttons);
+					switch (chek.check(Buttons))
+					{
+					case "x":
+						//x won
+						JOptionPane.showMessageDialog(null, "X has won. Congratulations!");
+						reset();
+						break;
+					case "o":
+						//o won
+						JOptionPane.showMessageDialog(null, "O has won. Congratulations!");
+						reset();
+						break;
+					case "":
+						//nothing happened
+						if (buttonsClicked == 9)
+						{
+							JOptionPane.showMessageDialog(null, "Nobody wins. Stalemate.");
+							reset();
+						}
+						break;
+					}
 				}
 			}
 			break;
 		default:
 			break;
+		}
+		
+	}
+	void reset()
+	{
+		buttonsClicked = 0;
+		turn = "x";
+		for (JButton jba : Buttons)
+		{
+			jba.setText("");
+			jba.setEnabled(true);
+			jp.add(jba);
 		}
 	}
 }
