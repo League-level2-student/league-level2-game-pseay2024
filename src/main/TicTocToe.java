@@ -65,7 +65,6 @@ public class TicTocToe implements ActionListener{
 		final int buttonSize = 150;
 		for (JButton jba : Buttons)
 		{
-			jba.setBackground(new Color(51, 204, 51));
 			jba.setOpaque(true);
 			jba.setPreferredSize(new Dimension(buttonSize, buttonSize));
 			jba.addActionListener(this);
@@ -95,6 +94,16 @@ public class TicTocToe implements ActionListener{
 				{
 					buttonsClicked++;
 					sh.buttonClick(jba, turn);
+					switch(turn)
+					{
+					case "x":
+						jba.setBackground(new Color(255, 51, 0));
+						break;
+					case "o":
+						//green
+						jba.setBackground(new Color(51, 204, 51));
+						break;
+					}
 					turn = sh.changeTurn(turn);
 					switch (chek.check(Buttons))
 					{
@@ -131,6 +140,7 @@ public class TicTocToe implements ActionListener{
 		turn = "x";
 		for (JButton jba : Buttons)
 		{
+			jba.setBackground(null);
 			jba.setText("");
 			jba.setEnabled(true);
 			jp.add(jba);
