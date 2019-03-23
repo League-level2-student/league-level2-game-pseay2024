@@ -1,5 +1,6 @@
 package main;
 
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -56,7 +58,7 @@ public class TicTocToe implements ActionListener{
 
 	void setup() {
 		JOptionPane.showMessageDialog(null,
-				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent. The first player will be X. The indication of the whose turn it is will be shown by the background color; red means it is x's turn and green means that it is o's turn. Have fun ;)");
+				"INSTRUCTIONS: You play this game by clicking on a square to put an X or and O in it. You win by getting three of the Xs or Os in a row/column/diagnal. You alternate turns with your opponent. The first player will be X.\nThe indication of the whose turn it is will be shown by the background color; red means it is x's turn and green means that it is o's turn. Also, you may want to turn the volume to half the full volume level. Have fun ;)");
 		Buttons.add(jbNW);
 		Buttons.add(jbN);
 		Buttons.add(jbNE);
@@ -118,19 +120,19 @@ public class TicTocToe implements ActionListener{
 					{
 					case "x":
 						//x won
-						JOptionPane.showMessageDialog(null, "X has won. Congratulations!");
+						winSound(3.5, "x");
 						reset();
 						break;
 					case "o":
 						//o won
-						JOptionPane.showMessageDialog(null, "O has won. Congratulations!");
+						winSound(3.5, "o");
 						reset();
 						break;
 					case "":
 						//nothing happened
 						if (buttonsClicked == 9)
 						{
-							JOptionPane.showMessageDialog(null, "Nobody wins. Stalemate.");
+							JOptionPane.showMessageDialog(null, "Nobody wins. Stalemate :(");
 							reset();
 						}
 						break;
@@ -156,4 +158,19 @@ public class TicTocToe implements ActionListener{
 			jp.add(jba);
 		}
 	}
+	private void winSound(double timeSeconds, String turns) {
+		AudioClip sound = JApplet.newAudioClip(getClass().getResource("Cheer.wav")); 
+		sound.play();
+		switch (turns)
+		{
+		case "x":
+			JOptionPane.showMessageDialog(null, "X has won. Congratulations!");
+			break;
+		case "o":
+			JOptionPane.showMessageDialog(null, "O has won. Congratulations!");
+			break;
+	    }
+		sound.stop();
+	}
+
 }
